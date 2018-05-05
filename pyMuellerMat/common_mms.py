@@ -7,8 +7,7 @@ All sign conventions and coordinate definitions follow Golstein's book on Polari
 '''
 
 import numpy as np
-# from pyMuellerMat.common_mm_functions import *
-from common_mm_functions import * #For Debugging
+from pyMuellerMat.common_mm_functions import * 
 from pyMuellerMat import MuellerMat
 
 #######################################
