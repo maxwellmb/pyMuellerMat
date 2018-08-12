@@ -4,7 +4,7 @@ The main body of the code that contains all the class definitions
 '''
 
 import inspect
-import common_mm_functions
+from pyMuellerMat import common_mm_functions
 import copy
 import numpy as np
 
