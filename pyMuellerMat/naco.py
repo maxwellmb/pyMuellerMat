@@ -1,7 +1,7 @@
 import numpy as np
-import common_mm_functions as cmf
-import common_mms as cmm
-import MuellerMat
+from pyMuellerMat import common_mm_functions as cmf
+from pyMuellerMat import common_mms as cmm
+from pyMuellerMat import MuellerMat
 
 
 def naco_function_mmb(ip_q = 0, ip_u=0, u_eff=0.93,uq_crosstalk = -0.2 ):
