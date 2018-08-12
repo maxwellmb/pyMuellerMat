@@ -50,7 +50,7 @@ class Retarder(MuellerMat.MuellerMatrix):
 	'''
 	A MuellerMat.MuellerMatrix child class for a general polarizer
 	'''
-	def __init__(self,name='Retarder'):
+	def __init__(self,name='Retarder',phi=0):
 		super(Retarder, self).__init__(general_retarder_function,name=name)
 
 class HWP(MuellerMat.MuellerMatrix):

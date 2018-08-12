@@ -177,12 +177,12 @@ class SystemMuellerMatrix(object):
 			kwargs = self.master_kwarg_dict[self.names[-i]]
 			self.mueller_matrix_list[-i].kwargs = kwargs
 			new_mm = self.mueller_matrix_list[-i].evaluate()
-			# mm = np.matmul(mm,new_mm)
-			mm = np.matmul(new_mm,mm)
+			mm = np.matmul(mm,new_mm)
+			# mm = np.matmul(new_mm,mm)
 
 		self.mm = mm
 
-		return mm.T
+		return mm
 
 	def invert():
 		'''
