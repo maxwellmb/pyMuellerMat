@@ -152,7 +152,7 @@ def diattenuator_retarder_function(epsilon=1, phi=0.):
 	phi		-	The phase retardance between the x and y components in radians
 
 	'''
-	mm = 0.5*np.array([[1, epsilon, 0, 0],
+	mm = np.array([[1, epsilon, 0, 0],
 					   [epsilon, 1, 0, 0],
 					   [0,		   0,		  np.sqrt(1-epsilon**2)*np.cos(phi), np.sqrt(1-epsilon**2)*np.sin(phi)],
 					   [0,		   0,		  -np.sqrt(1-epsilon**2)*np.sin(phi), np.sqrt(1-epsilon**2)*np.cos(phi)]])
