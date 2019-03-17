@@ -84,6 +84,6 @@ class DiattenuatorRetarder(MuellerMat.MuellerMatrix):
 	A MuellerMat.MuellerMatrix child class for a diattenuator retarder
 	'''
 	def __init__(self, name='DiattenuatorRetarder'):
-		super(DiattenuatorRetarder,self).__init__(diattenuator_retarder, name=name)
+		super(DiattenuatorRetarder,self).__init__(diattenuator_retarder_function, name=name)
 
 
