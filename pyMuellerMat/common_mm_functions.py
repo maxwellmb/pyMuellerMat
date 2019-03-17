@@ -135,11 +135,11 @@ def rotator_function(pa=0.):
 	pa	-	The physical position angle of rotation in degrees. Note, the function will rotate the polarization by 2*pa
 	'''
 
-	pa = np.radians(pa)
+	pa_rad = np.radians(pa)
 
 	mm = np.array([[1, 0,           0,           0],
-				  [0, np.cos(2*pa),np.sin(2*pa),0],
-				  [0,-np.sin(2*pa),np.cos(2*pa),0],
+				  [0, np.cos(2*pa_rad),np.sin(2*pa_rad),0],
+				  [0,-np.sin(2*pa_rad),np.cos(2*pa_rad),0],
 				  [0, 0,           0,           1]])
 	return mm
 
@@ -152,10 +152,10 @@ def diattenuator_retarder_function(epsilon=1, phi=0.):
 	phi		-	The phase retardance between the x and y components in radians
 
 	'''
-	mm = 0.5*np.array([[1+epsilon, 1-epsilon, 0, 0],
-					   [1-epsilon, 1+epsilon, 0, 0],
-					   [0,		   0,		  2*np.sqrt(epsilon)*np.cos(phi), 2*np.sqrt(epsilon)*np.sin(phi)],
-					   [0,		   0,		 -2*np.sqrt(epsilon)*np.sin(phi), 2*np.sqrt(epsilon)*np.cos(phi)]])
+	mm = 0.5*np.array([[1, epsilon, 0, 0],
+					   [epsilon, 1, 0, 0],
+					   [0,		   0,		  np.sqrt(1-epsilon**2)*np.cos(phi), np.sqrt(1-epsilon**2)*np.sin(phi)],
+					   [0,		   0,		  -np.sqrt(1-epsilon**2)*np.sin(phi), np.sqrt(1-epsilon**2)*np.cos(phi)]])
 	return mm
 
 

@@ -158,13 +158,35 @@ class SystemMuellerMatrix(object):
 		self.mm = copy.deepcopy(self.default_mm)
 		
 
-	def evaluate(self):
+	def evaluate(self, new_kwarg_dict = None):
 		'''
 		Compute the system mueller matrix by evaluating each individual mueller matrix based on the keyword dictionary, kwarg_dict. 
 		kwarg_dict will be a nested dictionary of the form {'M0': {'kwarg1': value, 'kwarg2': value}, 'M1': {'kwarg1': value, 'kwarg2': value}, etc}, 
 		where M0 and M1 are the names of the first and second mueller matrices and 'kwarg1' and 'kwarg2' represent the keywords needed for their respective functions 
 		and may vary in actual name between the two functions. 
 		'''
+
+
+		#Update the kwarg dicts based on the new_kwarg_dict if it exists
+		if new_kwarg_dict is not None:
+
+			#TODO: Put in some sort of check to make sure that the 
+			# new_kwarg_dict is in the right format
+
+			#Get the names of the mueller matrices
+			mm_names = new_kwarg_dict.keys()
+			#Cycle through the mueller matrices and update their components
+			for mm_name in mm_names:
+				#If we have a correct mueller matrix then update the parameters.
+				if mm_name in self.master_kwarg_dict:
+					
+					#Now do the same things with the keywords
+					mm_keys = new_kwarg_dict[mm_name].keys()
+					for mm_key in mm_keys:
+						if mm_key in self.master_kwarg_dict[mm_name].keys():
+							#Update the keyword! 
+							self.master_kwarg_dict[mm_name][mm_key] = new_kwarg_dict[mm_name][mm_key]
+
 
 		#The number of mueller matrices in the list
 		n_mms = len(self.mueller_matrix_list)
