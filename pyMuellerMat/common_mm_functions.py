@@ -56,7 +56,7 @@ def vertical_polarizer_function():
 
 	return mm
 
-def wollaston_prism_function(beam='o'):
+def wollaston_prism_function(beam='o',eta=1.):
 	'''
 	A function that returns mueller matrix for an ideal wollaston prism. 
 
@@ -64,6 +64,7 @@ def wollaston_prism_function(beam='o'):
 
 	kwargs:
 	beam	- Equal to 'o' or 'e', corresponding to ordinary and extraordinary beams
+	eta 	- A modulation efficiency term. 
 	'''
 	if (beam != 'o') & (beam !='e'):
 		print("For a wollaston prism you must specify a beam of either 'o' or 'e'.")
@@ -72,10 +73,10 @@ def wollaston_prism_function(beam='o'):
 
 	#If the ordinary beam then sign = 1
 	if beam == 'o':
-		sign = 1
+		sign = eta
 	#If the extraordinary beam then sign = -1
 	else: 
-		sign = -1
+		sign = -eta
 
 	mm = 0.5*np.array([[1,sign,0,0],
 					  [sign,1,0,0],
