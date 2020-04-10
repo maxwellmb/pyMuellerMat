@@ -192,11 +192,19 @@ class SystemMuellerMatrix(object):
         mm = np.eye(4)
 
         # Cycle through the mueller matrices and multiply them together
+        # for i in range(n_mms):
+        #     properties = self.master_property_dict[self.names[-i]]
+        #     self.mueller_matrix_list[-i].properties = properties
+        #     new_mm = self.mueller_matrix_list[-i].evaluate()
+        #     mm = np.matmul(mm, new_mm)
+        #     # mm = np.matmul(new_mm,mm)
+
         for i in range(n_mms):
-            properties = self.master_property_dict[self.names[-i]]
-            self.mueller_matrix_list[-i].properties = properties
-            new_mm = self.mueller_matrix_list[-i].evaluate()
-            mm = np.matmul(mm, new_mm)
+            properties = self.master_property_dict[self.names[i]]
+            self.mueller_matrix_list[i].properties = properties
+            new_mm = self.mueller_matrix_list[i].evaluate()
+            # mm = np.matmul(mm, new_mm)
+            mm = mm@new_mm
             # mm = np.matmul(new_mm,mm)
 
         self.mm = mm
