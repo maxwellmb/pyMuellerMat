@@ -112,3 +112,19 @@ class DiattenuatorRetarder2(MuellerMat.MuellerMatrix):
 
     def __init__(self, name='DiattenuatorRetarder2'):
         super(DiattenuatorRetarder2, self).__init__(diattenuator_retarder_function2, name=name)
+
+class InstrumentalPolarization(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for instrumental polarization
+    '''
+    def __init__(self, name='InstrumentalPolarization'):
+        super(InstrumentalPolarization, self).__init__(instrumental_polarization_function, name=name)
+
+
+class UV_Sign_Flip(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for instrumental polarization
+    '''
+
+    def __init__(self, name='UV_Sign_Flip'):
+        super(UV_Sign_Flip, self).__init__(UV_sign_flip_function, name=name)

@@ -184,3 +184,25 @@ def diattenuator_retarder_function2(r1=1., r2=0., delta=0.):
                    [0, 0, np.sqrt(r1 * r2) * np.cos(delta), -np.sqrt(r1 * r2) * np.sin(delta)],
                    [0, 0, np.sqrt(r1 * r2) * np.sin(delta), np.sqrt(r1 * r2) * np.cos(delta)]])
     return mm
+
+
+def instrumental_polarization_function(IPQ=0,IPU=0,IPV=0):
+    '''
+    This function describes just instrumental polarization terms
+    '''
+    mm = np.array([[1,0,0,0],
+                   [IPQ,0,0,0],
+                   [IPU,0,0,0],
+                   [IPV,0,0,0]])
+
+    return mm
+
+def UV_sign_flip_function():
+    '''
+    This function describes a reflection that flips the signs of U and V
+    '''
+    mm = np.array([[1,0,0,0],
+                    [0,1,0,0],
+                    [0,0,-1,0],
+                    [0,0,0,-1]])
+    return mm
