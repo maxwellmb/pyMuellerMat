@@ -155,7 +155,7 @@ def rotator_function(pa=0.):
 
 def diattenuator_retarder_function(epsilon=1, phi=0.):
     '''
-    The function that describes a linear diattenuator that has a retardance (Goldstein)
+    The function that describes a linear diattenuator that has a retardance (van Holstein et al. 2020, Eq'n 20)
 
     Inputs:
     epsilon -	The diattenuation
@@ -190,10 +190,10 @@ def instrumental_polarization_function(IPQ=0,IPU=0,IPV=0):
     '''
     This function describes just instrumental polarization terms
     '''
-    mm = np.array([[1,0,0,0],
-                   [IPQ,0,0,0],
-                   [IPU,0,0,0],
-                   [IPV,0,0,0]])
+    mm = np.array([[1,IPQ,0,0],
+                   [IPQ,1,0,0],
+                   [IPU,0,1,0],
+                   [IPV,0,0,1]])
 
     return mm
 
