@@ -17,8 +17,10 @@ class System(BaseModel):
     components: OrderedDict[str, Callable]
 
     def __call__(self) -> NDArray:
-        mms = [comp() for comp in reversed(self.components.values())]
-        return np.linalg.multi_dot(mms)
+        res = 1
+        for comp in reversed(self.components.values()):
+            res = np.dot(comp(), res)
+        return res
     
     def to_dict(self) -> dict:
         # get model as nested dictionary
@@ -60,8 +62,7 @@ if __name__ == "__main__":
     print(M @ S)
 
     res = timeit.timeit(sys, number=10000)
-    print(f"Average time to evaluate MM (n=1e4): {res*1e3:.02e} ms")
-
+    print(f"Average time to evaluate MM (n=1e4): {res:.02e} ms")
 
     model_dict = sys.to_dict()
 
