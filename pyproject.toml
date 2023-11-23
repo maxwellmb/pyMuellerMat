@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyMuellerMat"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Max Millar-Blanchaer", email = "maxmb@ucsb.edu"},
+    {name = "Miles Lucas", email = "mdlucas@hawaii.edu"}
+]
+requires-python = ">=3.7"
+version = "0.1.0"
+dependencies = [
+    "numpy",
+]
+
+[project.urls]
+homepage = "https://github.com/maxmb/pyMuellerMat"
+repository = "https://github.com/maxmb/pyMuellerMat"
