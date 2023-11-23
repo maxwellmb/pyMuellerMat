@@ -1,7 +1,5 @@
-import numba
 import numpy as np
 
-@numba.njit()
 def lp_mm(theta: float = 0):
     """
     Rotated linear polarizer
@@ -25,7 +23,6 @@ def lp_mm(theta: float = 0):
     ), dtype="f4")
     return mm
 
-@numba.njit()
 def wp_mm(theta: float = 0, delta: float = 0):
     """
     Rotated generic waveplate
