@@ -62,7 +62,7 @@ if __name__ == "__main__":
     print(M @ S)
 
     res = timeit.timeit(sys, number=10000)
-    print(f"Average time to evaluate MM (n=1e4): {res:.02e} ms")
+    print(f"Average time to evaluate MM (n=1e4): {res/10000*1e6:.02e} us")
 
     model_dict = sys.to_dict()
 
