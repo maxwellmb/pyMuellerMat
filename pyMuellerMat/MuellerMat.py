@@ -25,7 +25,9 @@ class MuellerMatrix(object):
         Initializing the object - all that you need to pass in is the mueller_matrix_function.
         The function should have no arguments, but can have keyword arguments and it should return an array of size [4,4].
         The keyword arguments will be automatically detected and stored in the the property_list property.
-        A parameter "theta"-a rotation angle will be appended to the property_list.
+        Two rotational parameters will be appended to the property_list: 'theta' and 'delta_theta'.
+        They will be added together to form the total rotation angle. We define them both, so that we can include 
+        a fixed offset on top of a rotating optic. 
 
         Class properties:
 
@@ -63,6 +65,10 @@ class MuellerMatrix(object):
         self.property_list.insert(0, 'theta')
         self.property_defaults.insert(0, 0.)
 
+        # Add 'delta_theta' the rotational offset value. All mueller matrices might have an offset.
+        self.property_list.insert(0, 'delta_theta')
+        self.property_defaults.insert(0, 0.)
+
         # TODO: Get the property default values.
         self.default_property_dict = {}
         for i, kwarg in enumerate(self.property_list):
@@ -89,17 +95,15 @@ class MuellerMatrix(object):
         # TODO: Update self.properties with the new properties that have been passed. Not all properties have to be updated.
 
         function_properties = copy.deepcopy(self.properties)
-        theta = function_properties.pop('theta')
-        # print(theta)
+        theta = function_properties.pop('theta') + function_properties.pop('delta_theta')
+        
         # Evaluate the function with all the properties
         mm = self.function(**function_properties)
 
         # if theta != 0: Apply a rotation
         if theta != 0:
-            # print(theta)
             mm = np.matmul(np.matmul(common_mm_functions.rotator_function(-theta), mm),
                            common_mm_functions.rotator_function(theta))
-        # TODO: Figure out the proper way to
 
         # Update the object's mm property
         self.mm = mm
