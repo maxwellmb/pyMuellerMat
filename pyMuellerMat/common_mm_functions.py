@@ -206,3 +206,9 @@ def UV_sign_flip_function():
                     [0,0,-1,0],
                     [0,0,0,-1]])
     return mm
+
+def arbitrary_matrix_function(**kwargs):
+    """
+    Returns a 4x4 matrix provided by the user via 'mm' or defaults to a zero matrix.
+    """
+    return kwargs.get('mm', np.zeros((4, 4)))

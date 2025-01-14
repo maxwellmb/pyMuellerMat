@@ -128,3 +128,24 @@ class UV_Sign_Flip(MuellerMat.MuellerMatrix):
 
     def __init__(self, name='UV_Sign_Flip'):
         super(UV_Sign_Flip, self).__init__(UV_sign_flip_function, name=name)
+
+class ArbitraryMatrix(MuellerMat.MuellerMatrix):
+    def __init__(self, name='ArbitraryMatrix', matrix_function=arbitrary_matrix_function):
+        """
+        Initialize an ArbitraryMatrix object.
+
+        Parameters:
+        - name (str): The name of the matrix.
+        - matrix_function (callable): A function that returns a 4x4 matrix. Defaults to `arbitrary_matrix_function`.
+        """
+        super(ArbitraryMatrix, self).__init__(matrix_function, name=name)
+
+    def set_matrix(self, mm):
+        """
+        Dynamically set a custom 4x4 matrix and re-evaluate the matrix.
+
+        Parameters:
+        - mm (np.ndarray): A custom 4x4 Mueller matrix.
+        """
+        self.properties['mm'] = mm
+        self.mm = self.evaluate()
