@@ -60,7 +60,7 @@ def vertical_polarizer_function():
     return mm
 
 # TODO: Test the new transmission_ratio value
-def wollaston_prism_function(beam='o', eta=1., transmission_ratio = 1):
+def wollaston_prism_function(beam='o', eta=1., transmission_ratio = 1.):
     '''
     A function that returns mueller matrix for an ideal wollaston prism.
 
