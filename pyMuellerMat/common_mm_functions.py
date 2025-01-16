@@ -59,8 +59,8 @@ def vertical_polarizer_function():
 
     return mm
 
-
-def wollaston_prism_function(beam='o', eta=1.):
+# TODO: Test the new transmission_ratio value
+def wollaston_prism_function(beam='o', eta=1., transmission_ratio = 1):
     '''
     A function that returns mueller matrix for an ideal wollaston prism.
 
@@ -69,6 +69,8 @@ def wollaston_prism_function(beam='o', eta=1.):
     kwargs:
     beam	- Equal to 'o' or 'e', corresponding to ordinary and extraordinary beams
     eta 	- A modulation efficiency term.
+    transmission_ratio  - A scalar ratio between the o and e beams of the matrix
+                          that is equivalent to EM ratio gain
     '''
     if (beam != 'o') & (beam != 'e'):
         print("For a wollaston prism you must specify a beam of either 'o' or 'e'.")
@@ -81,8 +83,10 @@ def wollaston_prism_function(beam='o', eta=1.):
     # If the extraordinary beam then sign = -1
     else:
         sign = -eta
+        # Nulling out the ratio effect for the extraordinary beam
+        transmission_ratio = 1
 
-    mm = 0.5 * np.array([[1, sign, 0, 0],
+    mm = transmission_ratio * 0.5 * np.array([[1, sign, 0, 0],
                          [sign, 1, 0, 0],
                          [0, 0, 0, 0],
                          [0, 0, 0, 0]])
