@@ -29,6 +29,25 @@ def general_polarizer_function(px=1., py=1.):
                          [0, 0, 0, 2 * px * py]])
     return mm
 
+# TODO: Make sure this uses the same x and y axis conventions as the above func
+def general_linear_polarizer_function_with_theta(theta=0):
+    """
+    The Mueller matrix for a linear polarizer at angle theta.
+
+    Args:
+        theta: Angle of the polarizer's transmission axis in radians.
+
+    Returns:
+        A 4x4 Mueller matrix representing the linear polarizer.
+    """
+    px = np.cos(theta)
+    py = np.sin(theta)
+
+    mm = 0.5 * np.array([[px ** 2 + py ** 2, px ** 2 - py ** 2, 0, 0],
+                         [px ** 2 - py ** 2, px ** 2 + py ** 2, 0, 0],
+                         [0, 0, 2 * px * py, 0],
+                         [0, 0, 0, 2 * px * py]])
+    return mm
 
 def horizontal_polarizer_function():
     '''
@@ -113,7 +132,6 @@ def general_retarder_function(phi=0.):
                    [0, 0, -np.sin(phi), np.cos(phi)]])
 
     return mm
-
 
 def halfwave_retarder_function():
     '''
