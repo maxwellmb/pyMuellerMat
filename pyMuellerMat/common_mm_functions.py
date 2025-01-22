@@ -30,24 +30,30 @@ def general_polarizer_function(px=1., py=1.):
     return mm
 
 # TODO: Make sure this uses the same x and y axis conventions as the above func
-def general_linear_polarizer_function_with_theta(theta=0):
+def general_linear_polarizer_function_with_theta(theta = 0):
     """
-    The Mueller matrix for a linear polarizer at angle theta.
+    The Mueller matrix for a linear polarizer at angle theta (in degrees).
 
     Args:
-        theta: Angle of the polarizer's transmission axis in radians.
+        theta: Angle of the polarizer's transmission axis in degrees.
 
     Returns:
         A 4x4 Mueller matrix representing the linear polarizer.
     """
-    px = np.cos(theta)
-    py = np.sin(theta)
+    # Convert theta from degrees to radians
+    theta_rad = np.deg2rad(theta)
 
+    # Calculate px and py
+    px = np.cos(theta_rad)
+    py = np.sin(theta_rad)
+
+    # Generate the Mueller matrix
     mm = 0.5 * np.array([[px ** 2 + py ** 2, px ** 2 - py ** 2, 0, 0],
                          [px ** 2 - py ** 2, px ** 2 + py ** 2, 0, 0],
                          [0, 0, 2 * px * py, 0],
                          [0, 0, 0, 2 * px * py]])
     return mm
+
 
 def horizontal_polarizer_function():
     '''
