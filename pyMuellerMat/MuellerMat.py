@@ -51,7 +51,7 @@ class MuellerMatrix(object):
 
         # Get the function's keyword arguments - I found this example of how to do this here: https://stackoverflow.com/questions/11915032/get-keyword-arguments-for-function-python
         # TODO: There may be a python 3 compatability problem here.
-        argspec = inspect.getargspec(self.function)
+        argspec = inspect.getfullargspec(self.function)
 
         if argspec.defaults is not None:
             self.property_list = argspec.args[-len(argspec.defaults):]
