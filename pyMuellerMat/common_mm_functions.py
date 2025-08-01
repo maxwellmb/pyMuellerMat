@@ -250,13 +250,13 @@ def arbitrary_matrix_function(**kwargs):
 
 
 
-def two_layer_HWP_function(wavelength=0, w_SiO2=0, w_MgF2=0):
+def two_layer_HWP_function(wavelength=500, w_SiO2=0, w_MgF2=0):
     '''
     The Mueller matrix for a two layer HWP with one SiO2 crystal layer
     and one MgF2 layer. The physical model is from Joost t Hart 2021.
 
     Inputs:
-    wavelength   -  The wavelength in nm
+    wavelength   -  The wavelength in nm 
     w_SiO2       -  The width of the SiO2 layer
     w_MgF2       -  The width of the MgF2 layer
     
@@ -269,7 +269,7 @@ def two_layer_HWP_function(wavelength=0, w_SiO2=0, w_MgF2=0):
                    [0, 0, -np.sin(phi), np.cos(phi)]])
     return mm
 
-def SCExAO_IMR_function(wavelength=0, d=0):
+def SCExAO_IMR_function(wavelength=500, d=0):
     '''
     The mueller matrix for the SCExAO image rotator.
     The physical models are from Joost t Hart 2021.
