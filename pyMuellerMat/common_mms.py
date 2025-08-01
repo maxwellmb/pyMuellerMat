@@ -149,3 +149,24 @@ class ArbitraryMatrix(MuellerMat.MuellerMatrix):
         """
         self.properties['mm'] = mm
         self.mm = self.evaluate()
+
+
+####################################
+############# SPECIAL ##############
+####################################
+
+class two_layer_HWP(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for a two layer HWP
+    '''
+
+    def __init__(self, name='SCExAO_HWP'):
+        super(two_layer_HWP, self).__init__(two_layer_HWP_function, name=name)
+
+class SCExAO_IMR(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for the SCExAO IMR
+    '''
+
+    def __init__(self, name='SCExAO_IMR'):
+        super(SCExAO_IMR, self).__init__(SCExAO_IMR_function, name=name)
