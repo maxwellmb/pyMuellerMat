@@ -270,3 +270,125 @@ def IMR_retardance(wavelengths, d=262.56):
     retardance_list = np.array(retardance_list)
 
     return retardance_list
+
+def refractive_index(eps_r1,eps_r2):
+    """
+    Refractive index as a function of dialectric functions.
+    
+    Parameters
+    -----------
+    eps_r1: float
+        First dialectric function output.
+        
+    eps_r2: float
+        Second dialectric function output.
+        
+    Returns
+    --------
+    n: complex
+        Refractive index.
+    """
+
+    # Refraction coef relating phase velocity to medium
+    nhat = (1/np.sqrt(2))*np.sqrt(np.sqrt(eps_r1**2+eps_r2**2)+eps_r1)
+
+    # Extinction coef
+    kappa = (1/np.sqrt(2))*np.sqrt(np.sqrt(eps_r1**2+eps_r2**2)-eps_r1)
+
+    return nhat + kappa*1j
+
+def M3_diattenuation(wavelength,m1=2.104,b1=14.2,m2=2.1,b2=13.2):
+    """
+    Based on Joost t Hart 2021.
+    
+    Parameters
+    -----------
+
+    wavelength: float
+        Wavelength in nm.
+
+    m1: float, optional
+        Exponent for dialectric function 1 approximation.
+    
+    b1: float, optional
+        Other exponent for dialectric function 1 approximation.
+
+    m2: float, optional
+        Exponent for dialectric function 2 approximation.
+
+    b2: float, optional
+        Other exponent for dialectric function 2 approximation.
+
+    Returns
+    --------
+    epsilon: float
+        Diattenuation of M3.
+    """
+    lam = wavelength * 1e-9 # convert to meters
+    eps_r1 = -10**b1*lam**m1 # dialectric 1 approx 
+    eps_r2 = 10**b2*lam**m2 # dialectric 2 approx 
+    n_2 = refractive_index(eps_r1,eps_r2) # refractive index of m3
+    theta_i = np.pi/4
+    cos_i = np.cos(theta_i)
+
+    # Use cosine form for transmitted angle (n1 = 1)
+    cos_t = np.sqrt(1 - (np.sin(theta_i)/n_2)**2)
+
+    # Fresnel coefficients (n1=1)
+    r_s = (cos_i - n_2*cos_t) / (cos_i + n_2*cos_t)
+    r_p = (n_2*cos_i - cos_t) / (n_2*cos_i + cos_t)
+
+    #Calculate diattenuation
+    eps_m3 = (np.abs(r_s)**2-np.abs(r_p)**2)/(np.abs(r_s)**2+np.abs(r_p)**2)
+    return eps_m3
+
+def M3_retardance(wavelength,m1=2.104,b1=14.2,m2=2.1,b2=13.2):
+    """
+    Based on Joost t Hart 2021.
+    
+    Parameters
+    -----------
+
+    wavelength: float
+        Wavelength in nm.
+
+    m1: float, optional
+        Exponent for dialectric function 1 approximation.
+    
+    b1: float, optional
+        Other exponent for dialectric function 1 approximation.
+
+    m2: float, optional
+        Exponent for dialectric function 2 approximation.
+
+    b2: float, optional
+        Other exponent for dialectric function 2 approximation.
+
+    Returns
+    --------
+    Phi: float
+        Retardance of M3 (rad).
+    """
+    lam = wavelength * 1e-9 # convert to meters
+    eps_r1 = -10**b1*lam**m1 # dialectric 1 approx 
+    eps_r2 = 10**b2*lam**m2 # dialectric 2 approx 
+    n_2 = refractive_index(eps_r1,eps_r2) # refractive index of m3
+    theta_i = np.pi/4
+    cos_i = np.cos(theta_i)
+
+    # Use cosine form for transmitted angle (n1 = 1)
+    cos_t = np.sqrt(1 - (np.sin(theta_i)/n_2)**2)
+
+    # Fresnel coefficients (n1=1)
+    r_s = (cos_i - n_2*cos_t) / (cos_i + n_2*cos_t)
+    r_p = (n_2*cos_i - cos_t) / (n_2*cos_i + cos_t)
+
+     # Phase angles in radians
+    phi_s = np.angle(r_s)   # arg(r_s)
+    phi_p = np.angle(r_p)   # arg(r_p)
+
+    # Difference, wrapped to [0, 2pi)
+    phi = (phi_s - phi_p) % (2 * np.pi)
+
+    # Convert to degrees
+    return phi

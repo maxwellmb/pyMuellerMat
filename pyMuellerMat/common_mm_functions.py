@@ -6,7 +6,8 @@ All sign conventions and coordinate definitions follow Golstein's book on Polari
 '''
 
 import numpy as np
-from pyMuellerMat.physical_models.charis_physical_models import HWP_retardance,IMR_retardance
+from pyMuellerMat.physical_models.charis_physical_models import HWP_retardance,IMR_retardance, M3_retardance, M3_diattenuation
+
 
 
 
@@ -286,4 +287,25 @@ def SCExAO_IMR_function(wavelength=500, d=0):
                    [0, 1, 0, 0],
                    [0, 0, np.cos(phi), np.sin(phi)],
                    [0, 0, -np.sin(phi), np.cos(phi)]])
+    return mm
+
+def SUBARU_M3_function(wavelength=500,m1=2.104,b1=14.2,m2=2.1,b2=13.2):
+    '''
+    The mueller matrix for CHARIS's M3.
+    The physical models are from Joost t Hart 2021.
+    
+
+    Inputs:
+    wavelength    -  The wavelength in nm
+    m1,b1,m2,b2            -  Dialectric function approximation exponents
+    
+    '''
+
+    epsilon = M3_diattenuation(wavelength,m1,b1,m2,b2)
+    phi = M3_retardance(wavelength,m1,b1,m2,b2)
+
+    mm = np.array([[1, epsilon, 0, 0],
+    [epsilon, 1, 0, 0],
+    [0, 0, np.sqrt(1 - epsilon ** 2) * np.cos(phi), np.sqrt(1 - epsilon ** 2) * np.sin(phi)],
+    [0, 0, -np.sqrt(1 - epsilon ** 2) * np.sin(phi), np.sqrt(1 - epsilon ** 2) * np.cos(phi)]])
     return mm

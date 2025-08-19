@@ -170,3 +170,11 @@ class SCExAO_IMR(MuellerMat.MuellerMatrix):
 
     def __init__(self, name='SCExAO_IMR'):
         super(SCExAO_IMR, self).__init__(SCExAO_IMR_function, name=name)
+
+class SUBARU_M3(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for the SUBARU M3
+    '''
+
+    def __init__(self, name='SUBARU_M3'):
+        super(SUBARU_M3, self).__init__(SUBARU_M3_function, name=name)
