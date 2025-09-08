@@ -50,6 +50,14 @@ class WollastonPrism(MuellerMat.MuellerMatrix):
     def __init__(self, name='WollastonPrism'):
         super(WollastonPrism, self).__init__(wollaston_prism_function, name=name)
 
+class GeneralDiattenuator(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for a general diattenuator
+    '''
+
+    def __init__(self, name='GeneralDiattenuator'):
+        super(GeneralDiattenuator, self).__init__(general_diattenuator_function, name=name)
+
 
 ######################################
 ############# Retarders ##############
@@ -80,6 +88,14 @@ class QWP(MuellerMat.MuellerMatrix):
 
     def __init__(self, name='QuarterwaveRetarder'):
         super(QWP, self).__init__(quarterwave_retarder_function, name=name)
+
+class EllipticalRetarder(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for an elliptical retarder
+    '''
+
+    def __init__(self, name='EllipticalRetarder'):
+        super(EllipticalRetarder, self).__init__(elliptical_retarder_function, name=name)
 
 
 #################################
@@ -178,3 +194,11 @@ class SUBARU_M3(MuellerMat.MuellerMatrix):
 
     def __init__(self, name='SUBARU_M3'):
         super(SUBARU_M3, self).__init__(SUBARU_M3_function, name=name)
+
+class general_diattenuator_retarder(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for a general diattenuator retarder
+    '''
+
+    def __init__(self, name='general_diattenuator_retarder'):
+        super(general_diattenuator_retarder, self).__init__(general_diattenuator_retarder_function, name=name)

@@ -121,6 +121,37 @@ def wollaston_prism_function(beam='o', eta=1., transmission_ratio = 1.):
     return mm
 
 
+def general_diattenuator_function(d_h=0,d_45=0,d_r=0, T_avg=1):
+    '''
+    The mueller matrix for a general diattenuator.
+    
+    Chipman Eq'n 6.59
+    
+    Kwargs:
+    d_h   -   Diattenuation for the horizontal component
+    d_45  -   Diattenuation for the 45 degree component
+    d_r   -   Diattenuation for the circular component
+    T_avg -   The average transmission of the diattenuator
+    '''
+    d = np.sqrt(d_h**2 + d_45**2 + d_r**2)
+    a = np.sqrt(1 - d**2)
+    # return identity if no diattenuation
+    if np.isclose(d, 0):
+        return np.eye(4)
+    else:
+        coef = (T_avg*(1-a))/d**2
+        mm1 = np.array([[1, d_h, d_45, d_r],
+                        [d_h, a,0,0],
+                        [d_45,0,a,0],
+                        [d_r,0,0,a]])
+        mm2 = np.array([[0,0,0,0],
+                       [0,d_h**2, d_h*d_45, d_h*d_r],
+                       [0,d_h*d_45, d_45**2, d_45*d_r],
+                       [0,d_h*d_r, d_45*d_r, d_r**2]])
+        mm = T_avg * mm1 + coef * mm2
+        return mm
+
+
 ######################################
 ############# Retarders ##############
 ######################################
@@ -157,6 +188,42 @@ def quarterwave_retarder_function():
     Goldstein Eq'n 5-28
     '''
     return general_retarder_function(phi=np.pi / 2.)
+
+def elliptical_retarder_function(phi_h=0, phi_45=0, phi_r=0):
+    '''
+    The mueller matrix for an elliptical retarder.
+    
+    Chipman Eq'n 6.28
+
+    Kwargs:
+    phi_h   -   Retardance for the horizontal component
+    phi_45  -   Retardance for the 45 degree component
+    phi_r   -   Retardance for the circular component
+    '''
+    phi = np.sqrt(phi_h**2 + phi_45**2 + phi_r**2)
+    # return identity if no retardance
+    if np.isclose(phi, 0):
+        return np.eye(4)
+    else:
+        c = np.cos(phi)
+        s = np.sin(phi)
+        t = 1 - c
+        two_two = (phi_h**2 + (phi_45**2+phi_r**2)*c)/phi**2
+        two_three = (phi_45*phi_h*t)/phi**2+(phi_r*s)/phi
+        two_four = (phi_r*phi_h*t)/phi**2-(phi_45*s)/phi
+        three_two = (phi_h*phi_45*t)/phi**2-(phi_r*s)/phi
+        three_three = (phi_45**2 + (phi_h**2+phi_r**2)*c)/phi**2
+        three_four = (phi_r*phi_45*t)/phi**2+(phi_h*s)/phi
+        four_two = (phi_h*phi_r*t)/phi**2+(phi_45*s)/phi
+        four_three = (phi_45*phi_r*t)/phi**2-(phi_h*s)/phi
+        four_four = (phi_r**2 + (phi_h**2+phi_45**2)*c)/phi**2
+
+        mm = np.array([[1, 0, 0, 0],
+                   [0, two_two, two_three, two_four],
+                   [0, three_two, three_three, three_four],
+                   [0, four_two, four_three, four_four]])
+
+        return mm
 
 
 #################################
@@ -309,3 +376,24 @@ def SUBARU_M3_function(wavelength=500,m1=2.104,b1=14.2,m2=2.1,b2=13.2):
     [0, 0, np.sqrt(1 - epsilon ** 2) * np.cos(phi), np.sqrt(1 - epsilon ** 2) * np.sin(phi)],
     [0, 0, -np.sqrt(1 - epsilon ** 2) * np.sin(phi), np.sqrt(1 - epsilon ** 2) * np.cos(phi)]])
     return mm
+
+def general_diattenuator_retarder_function(d_h=0,d_45=0,d_r=0, T_avg=1, phi_h=0, phi_45=0, phi_r=0):
+    '''
+    Combination of previous two functions for general diattenuator and elliptical retarder.
+    Multiplication order: diattenuator first, then retarder.
+
+    Inputs:
+    d_h     -   The diattenuation for the horizontal component
+    d_45    -   The diattenuation for the 45 degree component
+    d_r     -   The diattenuation for the circular component
+    T_avg   -   The average transmission of the diattenuator
+    phi_h   -   Retardance for the horizontal component
+    phi_45  -   Retardance for the 45 degree component
+    phi_r   -   Retardance for the circular component
+    '''
+
+    mm_diat = general_diattenuator_function(d_h,d_45,d_r, T_avg)
+    mm_ret = elliptical_retarder_function(phi_h, phi_45, phi_r)
+    mm = np.matmul(mm_diat, mm_ret)
+    return mm
+
