@@ -397,3 +397,58 @@ def general_diattenuator_retarder_function(d_h=0,d_45=0,d_r=0, T_avg=1, phi_h=0,
     mm = np.matmul(mm_diat, mm_ret)
     return mm
 
+def elliptical_IMR_function(wavelength=500):
+    '''
+    Hardcoded elliptical retarder function for the SCExAO IMR.
+    
+    Inputs:
+    wavelength   -  The wavelength in nm 
+    '''
+    wavelength_bins = np.array([1159.5614, 1199.6971, 1241.2219, 1284.184 , 1328.6331, 1374.6208,
+        1422.2002, 1471.4264, 1522.3565, 1575.0495, 1629.5663, 1685.9701,
+        1744.3261, 1804.7021, 1867.1678, 1931.7956, 1998.6603, 2067.8395,
+        2139.4131, 2213.4641, 2290.0781, 2369.3441])
+    phi_h_list = np.array([4.31312706, 4.04490182, 3.81881104, 3.54188033, 3.17133585,
+       2.74597295, 2.46420845, 2.18764466, 1.93889396, 1.72839182,
+       1.52855398, 1.36617595, 1.2501473 , 1.15224628, 1.0693708 ,
+       1.01783268, 0.99111784, 0.97012524, 0.96460966, 0.97201315,
+       0.98230021, 1.01028539])
+    phi_45_list = np.array([6.37563323e-18, 2.81046745e-02, 1.57544066e-02, 1.65265292e-02,
+       8.77060264e-03, 1.30015816e-10, 7.98877796e-04, 1.00000000e-10,
+       1.82055679e-18, 3.62377836e-17, 1.00000000e-10, 1.00000000e-10,
+       2.44626001e-03, 3.15177374e-03, 5.25231957e-03, 3.47119295e-03,
+       7.04947853e-03, 9.43217249e-03, 1.18566179e-02, 1.83210208e-02,
+       1.69431276e-02, 6.76247167e-02])
+    phi_r_list = np.array([2.53065285e-02, 1.75412596e-02, 3.25702366e-24, 9.73850092e-17,
+       1.63679577e-16, 1.00000000e-10, 7.60489176e-23, 1.00000000e-10,
+       4.40273589e-19, 4.19322465e-17, 1.00000000e-10, 6.70684172e-04,
+       4.41932060e-03, 1.09646232e-02, 1.22877305e-02, 1.34954416e-02,
+       1.61165870e-02, 1.77312738e-02, 1.63337925e-02, 1.34526311e-02,
+       1.15389845e-02, 5.12554414e-03])
+    phi_h = np.interp(wavelength, wavelength_bins, phi_h_list)
+    phi_45 = np.interp(wavelength, wavelength_bins, phi_45_list)
+    phi_r = np.interp(wavelength, wavelength_bins, phi_r_list)
+    mm = elliptical_retarder_function(phi_h, phi_45, phi_r)
+    return mm
+
+def CHARIS_wollaston_function(wavelength=500, beam='o'):
+    '''
+    CHARIS wollaston model with hardcoded eta values
+    
+    Inputs:
+    wavelength   -  The wavelength in nm
+    beam         -  'o' or 'e' for the ordinary and extraordinary beams
+    '''
+    wol_eta = np.array([1.  , 0.99220673, 0.99660934, 0.98748931, 0.97977223,
+       0.9887953 , 0.99008662, 0.99190127, 0.99125159, 0.99385762,
+       0.99246299, 0.99329655, 0.99487966, 0.99382083, 0.99388459,
+       0.99286555, 0.99500475, 0.99025065, 0.99027029, 0.9846229 ,
+       0.9809924 , 0.96658868])
+    wavelength_bins = np.array([1159.5614, 1199.6971, 1241.2219, 1284.184 , 1328.6331, 1374.6208,
+        1422.2002, 1471.4264, 1522.3565, 1575.0495, 1629.5663, 1685.9701,
+        1744.3261, 1804.7021, 1867.1678, 1931.7956, 1998.6603, 2067.8395,
+        2139.4131, 2213.4641, 2290.0781, 2369.3441])
+    eta = np.interp(wavelength, wavelength_bins, wol_eta)
+    mm = wollaston_prism_function(beam=beam, eta=eta)
+    return mm
+    

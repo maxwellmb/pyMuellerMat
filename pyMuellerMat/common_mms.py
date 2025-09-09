@@ -202,3 +202,20 @@ class general_diattenuator_retarder(MuellerMat.MuellerMatrix):
 
     def __init__(self, name='general_diattenuator_retarder'):
         super(general_diattenuator_retarder, self).__init__(general_diattenuator_retarder_function, name=name)
+
+class elliptical_IMR(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for the hardcoded elliptical 
+    retarder IMR model
+    '''
+
+    def __init__(self, name='elliptical_IMR'):
+        super(elliptical_IMR, self).__init__(elliptical_IMR_function, name=name)
+
+class CHARIS_wollaston(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for the hardcoded CHARIS Wollaston prism model
+    '''
+
+    def __init__(self, name='CHARIS_wollaston'):
+        super(CHARIS_wollaston, self).__init__(CHARIS_wollaston_function, name=name)
