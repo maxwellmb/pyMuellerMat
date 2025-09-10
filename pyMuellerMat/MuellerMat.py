@@ -49,18 +49,15 @@ class MuellerMatrix(object):
 
         # TODO: Perhaps make a check so the function has no arguments (but can have keyword arguments)
 
-        # Get the function's keyword arguments - I found this example of how to do this here: https://stackoverflow.com/questions/11915032/get-keyword-arguments-for-function-python
-        # TODO: There may be a python 3 compatability problem here.
-        argspec = inspect.getfullargspec(self.function)
-
-        if argspec.defaults is not None:
-            self.property_list = argspec.args[-len(argspec.defaults):]
-            self.property_defaults = [arg for arg in argspec.defaults[-len(
-                argspec.defaults):]]  # The output is a tuple, so we need to do it this way.
-        else:
-            self.property_list = []
-            self.property_defaults = []
-
+        # Use inspect.signature for Python 3+ compatibility
+        sig = inspect.signature(self.function)
+        self.property_list = []
+        self.property_defaults = []
+        for pname, param in sig.parameters.items():
+            if param.default is not param.empty:
+                self.property_list.append(pname)
+                self.property_defaults.append(param.default)
+        
         # Add 'theta' the rotation value. All mueller matrices are rotatable.
         self.property_list.insert(0, 'theta')
         self.property_defaults.insert(0, 0.)
