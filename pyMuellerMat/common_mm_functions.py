@@ -87,6 +87,22 @@ def vertical_polarizer_function():
 
     return mm
 
+def depolarizer_function(a=0,b=0,c=0):
+    '''
+    The mueller matrix for a partial depolarizer.
+
+    Goldstein Eq'n 6-120
+    Kwargs:
+    a	- The depolarization factor for Q
+    b   - The depolarization factor for U
+    c   - The depolarization factor for V
+    '''
+    mm = np.array([[1, 0, 0, 0],
+                   [0, a, 0, 0],
+                   [0, 0, b, 0],
+                   [0, 0, 0, c]])
+    return mm
+
 # TODO: Test the new transmission_ratio value
 def wollaston_prism_function(beam='o', eta=1., transmission_ratio = 1.):
     '''

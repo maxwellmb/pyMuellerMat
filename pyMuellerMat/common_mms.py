@@ -111,6 +111,14 @@ class Rotator(MuellerMat.MuellerMatrix):
     def __init__(self, name='Rotator'):
         super(Rotator, self).__init__(rotator_function, name=name)
 
+class Depolarizer(MuellerMat.MuellerMatrix):
+    '''
+    A MuellerMat.MuellerMatrix child class for a general depolarizer
+    '''
+
+    def __init__(self, name='Depolarizer'):
+        super(Depolarizer, self).__init__(depolarizer_function, name=name)
+
 
 class DiattenuatorRetarder(MuellerMat.MuellerMatrix):
     '''
